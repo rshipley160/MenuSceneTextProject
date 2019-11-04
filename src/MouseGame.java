@@ -7,9 +7,8 @@ import java.awt.*;
 import java.lang.ref.Cleaner;
 import java.nio.DoubleBuffer;
 import java.nio.charset.IllegalCharsetNameException;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 
 public class MouseGame extends Game{
@@ -17,8 +16,15 @@ public class MouseGame extends Game{
     public static void main(String[] args)
     {
         MouseGame game = new MouseGame();
+        Map<String, Scene> options = new HashMap<>();
+
+        game.registerGlobalCallbacks();
+
         Scene main = new MainScene();
-        game.setScene(main);
+        options.put("Start",main);
+        options.put("Exit Game", null);
+        Scene mainMenu = new MainMenu(options);
+        game.setScene(mainMenu);
         game.gameLoop();
     }
 
