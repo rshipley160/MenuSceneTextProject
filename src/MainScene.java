@@ -20,12 +20,15 @@ public class MainScene implements Scene {
 
     // # of collectibles collected in the current level so far
     int collectedAmount = 0;
-
+    int score = 0;
     // Determines enemy speed, collectible de-spawn time, and # of collectibles required to advance
     int level = 0;
 
     // Set to true to clear all GameObjects except player
     boolean clearField = false;
+
+    Text text = new Text(0, MouseGame.ui.getHeight()-20, 20, 20, "Score: "+score);
+
 
     {
         spawnEnemies(6);
@@ -36,6 +39,7 @@ public class MainScene implements Scene {
         float b = (random.nextInt(101)+155) / 255f;
         GL11.glClearColor(r, g, b, 1.0f);
     }
+
 
     public void onMouseEvent(int button, int action, int mods) {
         Collectible captured = null;
@@ -60,6 +64,13 @@ public class MainScene implements Scene {
             if (captured != null) {
                 captured.release();
             }
+        }
+    }
+
+    public void onKeyEvent(int key, int scancode, int action, int mods)
+    {
+        if (key == GLFW.GLFW_KEY_P && action == GLFW.GLFW_PRESS)  {
+
         }
     }
 
@@ -242,6 +253,9 @@ public class MainScene implements Scene {
                 // we disappear...
                 this.deactivate();
 
+                score += 10;
+                // Add to the score
+
                 // and there's a 2 in 7 chance we'll drop a Collectible
                 Random rand = new Random();
                 if (rand.nextInt(7) < 2) {
@@ -305,6 +319,7 @@ public class MainScene implements Scene {
                 if (center.intersects(player.getHitbox())) {
                     release();
                     collectedAmount++;
+                    score += 100;
                     if (collectedAmount >= (level + 1)) {
                         levelUp();
                         collectedAmount = 0;
@@ -358,9 +373,9 @@ public class MainScene implements Scene {
 
         // Set a new background color
         Random random = new Random();
-        float r = (random.nextInt(101)+155) / 255f;
-        float g = (random.nextInt(101)+155) / 255f;
-        float b = (random.nextInt(101)+155) / 255f;
+        float r = (random.nextInt(101)+105) / 255f;
+        float g = (random.nextInt(101)+105) / 255f;
+        float b = (random.nextInt(101)+105) / 255f;
         GL11.glClearColor(r, g, b, 1.0f);
     }
 
@@ -430,6 +445,9 @@ public class MainScene implements Scene {
         {
             spawnEnemies(6);
         }
+
+        text.setString("Score: "+score);
+        text.draw();
 
         return this;
     }
