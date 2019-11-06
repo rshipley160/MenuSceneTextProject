@@ -16,14 +16,14 @@ public class MouseGame extends Game{
     public static void main(String[] args)
     {
         MouseGame game = new MouseGame();
-        Map<String, Scene> options = new HashMap<>();
+        Scene main = new MainScene();
+        List<String> textOptions = Arrays.asList("Start","Exit Game");
+        List<Scene> sceneOptions = Arrays.asList(main,null);
 
         game.registerGlobalCallbacks();
 
-        Scene main = new MainScene();
-        options.put("Start",main);
-        options.put("Exit Game", null);
-        Scene mainMenu = new MainMenu(options);
+
+        Scene mainMenu = new MainMenu(textOptions, sceneOptions);
         game.setScene(mainMenu);
         game.gameLoop();
     }
