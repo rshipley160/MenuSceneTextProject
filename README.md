@@ -1,5 +1,5 @@
 # MenuSceneTextProject
-Assignment due 11/8/19 For CPSC 3520 UTC Fall '19
+Assignment due 11/11/19 For CPSC 3520 UTC Fall '19
 
 ## Instructions
 Use arrow keys to operate menus, point and left-click to shoot enemies. Pick up collectibles that enemies drop by right-clicking and dragging them onto your turret.
