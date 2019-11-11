@@ -15,13 +15,11 @@ public class MouseGame extends Game{
 
     static SimpleMenu mainMenu;
     static MainScene main;
-    static PauseMenu pause;
 
     public static void main(String[] args)
     {
         MouseGame game = new MouseGame();
         main = new MainScene();
-        pause = new PauseMenu();
         List<String> textOptions = Arrays.asList("Start","Exit Game");
         List<Scene> sceneOptions = Arrays.asList(main,null);
 
@@ -35,7 +33,7 @@ public class MouseGame extends Game{
 
 
     public MouseGame() {
-        initUI(400, 400, "Mouse Game");
+        initUI(800, 800, "Mouse Game");
         ui.showMouseCursor(true);
 
     }

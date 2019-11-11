@@ -35,6 +35,7 @@ public class MainScene implements Scene {
 
     Text text = new Text(0, MouseGame.ui.getHeight()-20, 20, 20, "Score: "+score);
 
+    Sound levelUp = new Sound("res\\levelUp.wav");
 
     {
         spawnEnemies(6);
@@ -46,6 +47,21 @@ public class MainScene implements Scene {
         GL11.glClearColor(r, g, b, 1.0f);
     }
 
+    int playTime = 0;
+
+    public int getTime() {
+        return playTime;
+    }
+
+    public void reset()
+    {
+        score = 0;
+        playTime = 0;
+        level = 0;
+        collectedAmount = 0;
+        this.clearField= true;
+        this.spawnEnemies(6);
+    }
 
     public void onMouseEvent(int button, int action, int mods) {
         Collectible captured = null;
@@ -137,6 +153,8 @@ public class MainScene implements Scene {
 
     private class Enemy extends GameObject
     {
+        Sound deathSound = new Sound("res\\Death.wav");
+
         // square size
         int size;
 
@@ -266,8 +284,11 @@ public class MainScene implements Scene {
                 // we disappear...
                 this.deactivate();
 
-                score += 10;
+                //Play the death sound
+                deathSound.play();
+
                 // Add to the score
+                score += 10;
 
                 // and there's a 2 in 7 chance we'll drop a Collectible
                 Random rand = new Random();
@@ -384,18 +405,29 @@ public class MainScene implements Scene {
         // remove everything but the player
         clearField = true;
 
+        // Play level-up sound
+        levelUp.play();
+
         // Set a new background color
         Random random = new Random();
         float r = (random.nextInt(101)+105) / 255f;
         float g = (random.nextInt(101)+105) / 255f;
         float b = (random.nextInt(101)+105) / 255f;
         GL11.glClearColor(r, g, b, 1.0f);
+
+        if (level > 0)
+        {
+            VictoryScene v = new VictoryScene();
+            this.nextScene = v;
+        }
     }
 
     public Scene drawFrame(int delta)
     {
-        if (sceneChanged)
+        if (sceneChanged) {
             nextScene = this;
+            sceneChanged = false;
+        }
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         // Shoot on left click, send Bullets toward mouse location
         if (MouseGame.ui.mouseButtonIsPressed(0))
@@ -461,11 +493,12 @@ public class MainScene implements Scene {
             spawnEnemies(6);
         }
 
-        text.setString("Score: "+score);
+        text.setText("Score: "+score);
         text.draw();
 
         if (nextScene != this)
             sceneChanged = true;
+        playTime += delta;
         return nextScene;
     }
 }

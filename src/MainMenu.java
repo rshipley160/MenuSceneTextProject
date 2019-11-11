@@ -11,7 +11,7 @@ public class MainMenu extends SimpleMenu {
         setBackground(0.2f, 0.2f, 0.2f);
         for (int i = 0; i < textOptions.size(); i++)
         {
-            addItem(new SimpleMenu.SelectableText(20, 20+i*40, 20, 20, textOptions.get(i), 0.4f, 0.6f, 0.8f, 1f, 1f, 1f), sceneOptions.get(i));
+            addItem(new SimpleMenu.SelectableText(MouseGame.ui.getWidth()/2-120, MouseGame.ui.getHeight()/2-100+i*50, 30, 30, textOptions.get(i), 0.4f, 0.6f, 0.8f, 1f, 1f, 1f), sceneOptions.get(i));
         }
         select(0);
     }
