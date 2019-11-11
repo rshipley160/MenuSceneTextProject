@@ -13,17 +13,22 @@ import java.util.List;
 
 public class MouseGame extends Game{
 
+    static SimpleMenu mainMenu;
+    static MainScene main;
+    static PauseMenu pause;
+
     public static void main(String[] args)
     {
         MouseGame game = new MouseGame();
-        Scene main = new MainScene();
+        main = new MainScene();
+        pause = new PauseMenu();
         List<String> textOptions = Arrays.asList("Start","Exit Game");
         List<Scene> sceneOptions = Arrays.asList(main,null);
 
         game.registerGlobalCallbacks();
 
 
-        Scene mainMenu = new MainMenu(textOptions, sceneOptions);
+        mainMenu = new MainMenu(textOptions, sceneOptions);
         game.setScene(mainMenu);
         game.gameLoop();
     }

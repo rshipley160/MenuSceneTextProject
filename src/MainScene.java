@@ -1,6 +1,8 @@
 
 import edu.utc.game.*;
+import javafx.animation.PauseTransition;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWDropCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.opengl.GL11;
@@ -18,11 +20,15 @@ public class MainScene implements Scene {
     java.util.List<Enemy> enemies = new java.util.LinkedList<>();
     List<Collectible> collectibles = new java.util.LinkedList<>();
 
+    boolean sceneChanged = false;
+
     // # of collectibles collected in the current level so far
     int collectedAmount = 0;
     int score = 0;
     // Determines enemy speed, collectible de-spawn time, and # of collectibles required to advance
     int level = 0;
+
+    Scene nextScene = this;
 
     // Set to true to clear all GameObjects except player
     boolean clearField = false;
@@ -70,8 +76,14 @@ public class MainScene implements Scene {
     public void onKeyEvent(int key, int scancode, int action, int mods)
     {
         if (key == GLFW.GLFW_KEY_P && action == GLFW.GLFW_PRESS)  {
-
+            PauseMenu pause = new PauseMenu();
+            this.nextScene = pause;
         }
+
+    }
+
+    public int getScore() {
+        return score;
     }
 
     private class Turret extends GameObject
@@ -208,6 +220,7 @@ public class MainScene implements Scene {
             // And using that angle to get the x and y component of the movement vector
             this.direction = new XYPair<>((float)(Math.cos(angle)), (float)(Math.sin(angle)));
         }
+
 
         @Override
         public void update(int delta) {
@@ -381,6 +394,8 @@ public class MainScene implements Scene {
 
     public Scene drawFrame(int delta)
     {
+        if (sceneChanged)
+            nextScene = this;
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         // Shoot on left click, send Bullets toward mouse location
         if (MouseGame.ui.mouseButtonIsPressed(0))
@@ -449,6 +464,8 @@ public class MainScene implements Scene {
         text.setString("Score: "+score);
         text.draw();
 
-        return this;
+        if (nextScene != this)
+            sceneChanged = true;
+        return nextScene;
     }
 }
