@@ -2,7 +2,7 @@
 Assignment due 11/11/19 For CPSC 3520 UTC Fall '19
 
 ## Instructions
-Use arrow keys to operate menus, point and left-click to shoot enemies. Pick up collectibles that enemies drop by right-clicking and dragging them onto your turret.
+Use arrow keys and enter to navigate menus, point and left-click to shoot enemies. Pick up collectibles that enemies drop by right-clicking and dragging them onto your turret.
 You must collect one collectible per player level to advance to the next level. After you beat level 5 you win the game.
 
 ## Notes
